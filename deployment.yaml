@@ -1,0 +1,92 @@
+# ═══════════════════════════════════════════════════════════════
+#  Grand Horizon HMS — Kubernetes manifests (app + MongoDB)
+# ═══════════════════════════════════════════════════════════════
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ibm-hotel-secret
+type: Opaque
+stringData:
+  JWT_SECRET: change_this_to_a_long_random_secret_string
+  ADMIN_EMAIL: admin@grandhorizon.com
+  ADMIN_PASSWORD: admin123
+---
+# ── MongoDB ──
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:7
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongo-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  selector:
+    app: mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+# ── App (Express + static frontend) ──
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibm-hotel-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ibm-hotel
+  template:
+    metadata:
+      labels:
+        app: ibm-hotel
+    spec:
+      containers:
+        - name: ibm-hotel-container
+          image: ibm-hotel:v3
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PORT
+              value: "5000"
+            - name: MONGO_URI
+              value: "mongodb://mongo-service:27017/grand_horizon"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ibm-hotel-secret
+                  key: JWT_SECRET
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: ibm-hotel-secret
+                  key: ADMIN_EMAIL
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ibm-hotel-secret
+                  key: ADMIN_PASSWORD

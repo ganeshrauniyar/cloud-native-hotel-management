@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Grand Horizon</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🏨</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <script src="auth-guard.js"></script>
+  <style>
+    .admin-shell { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; position: relative; z-index: 1; }
+    .admin-top { display:flex; justify-content:space-between; align-items:center; margin-bottom: 26px; flex-wrap: wrap; gap: 12px; }
+    .admin-top h1 { font-family:'Playfair Display',serif; color: var(--gold,#d4a853); margin:0; font-size: 1.6rem; }
+    .admin-top .who { font-size:.82rem; color: var(--text-muted,#8592a8); }
+    .admin-actions { display:flex; gap:10px; }
+    .table-actions .btn-icon { font-size: 1rem; }
+    .role-pill { padding: 3px 10px; border-radius: 999px; font-size:.72rem; font-weight:600; text-transform:capitalize; }
+    .role-admin { background: rgba(212,168,83,.15); color:#e8c97a; border:1px solid rgba(212,168,83,.35); }
+    .role-manager { background: rgba(20,184,166,.15); color:#5eead4; border:1px solid rgba(20,184,166,.35); }
+    .role-staff { background: rgba(139,92,246,.15); color:#c4b5fd; border:1px solid rgba(139,92,246,.35); }
+    .inactive-row { opacity: .5; }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+  <div class="admin-shell">
+    <div class="admin-top">
+      <div>
+        <h1>⚙️ Admin Panel</h1>
+        <div class="who" id="admin-who">—</div>
+      </div>
+      <div class="admin-actions">
+        <button class="btn btn-secondary" onclick="window.location.href='index.html'">← Dashboard</button>
+        <button class="btn btn-ghost" onclick="Auth.logout()">Log out</button>
+      </div>
+    </div>
+
+    <!-- Overview stats -->
+    <div class="stats-grid stagger-children" id="admin-stats" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
+      <div class="stat-card gold"><div class="stat-header"><div class="stat-icon">👥</div><span class="stat-label">Users</span></div><div class="stat-value" id="st-users">–</div></div>
+      <div class="stat-card teal"><div class="stat-header"><div class="stat-icon">🚪</div><span class="stat-label">Rooms</span></div><div class="stat-value" id="st-rooms">–</div></div>
+      <div class="stat-card green"><div class="stat-header"><div class="stat-icon">📅</div><span class="stat-label">Bookings</span></div><div class="stat-value" id="st-bookings">–</div></div>
+      <div class="stat-card purple"><div class="stat-header"><div class="stat-icon">🧑‍💼</div><span class="stat-label">Staff</span></div><div class="stat-value" id="st-staff">–</div></div>
+    </div>
+
+    <!-- Users table -->
+    <div class="glass-card" style="padding:0;overflow:hidden;">
+      <div class="section-header" style="padding:18px 20px 0;">
+        <h3>User Accounts</h3>
+        <button class="btn btn-primary" onclick="AdminUI.openCreate()">+ Add User</button>
+      </div>
+      <div class="data-table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="users-tbody">
+            <tr><td colspan="5"><div class="empty-state"><p>Loading…</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal (reuses global modal styles) -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button class="modal-close" onclick="AdminUI.closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="auth.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

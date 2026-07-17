@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grand Horizon — Hotel Management System</title>
+  <meta name="description" content="Premium Hotel Management System — manage rooms, bookings, guests, billing, and staff with an elegant dark-themed dashboard.">
+  <meta name="keywords" content="hotel management, room booking, guest registry, hotel dashboard, billing system">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🏨</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <script src="auth-guard.js"></script>
+</head>
+<body>
+
+  <!-- Background gradient mesh -->
+  <div class="bg-mesh"></div>
+
+  <div class="app-layout">
+
+    <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">🏨</div>
+        <div>
+          <h2>Grand Horizon</h2>
+          <span class="logo-sub">Management Suite</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+
+        <button class="nav-item active" data-page="dashboard" id="nav-dashboard">
+          <span class="nav-icon">📊</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-page="rooms" id="nav-rooms">
+          <span class="nav-icon">🚪</span>
+          <span>Rooms</span>
+          <span class="nav-badge" id="badge-rooms">30</span>
+        </button>
+
+        <button class="nav-item" data-page="bookings" id="nav-bookings">
+          <span class="nav-icon">📅</span>
+          <span>Bookings</span>
+        </button>
+
+        <button class="nav-item" data-page="guests" id="nav-guests">
+          <span class="nav-icon">👤</span>
+          <span>Guests</span>
+        </button>
+
+        <div class="nav-section-label">Operations</div>
+
+        <button class="nav-item" data-page="checkinout" id="nav-checkinout">
+          <span class="nav-icon">🔑</span>
+          <span>Check-In / Out</span>
+        </button>
+
+        <button class="nav-item" data-page="billing" id="nav-billing">
+          <span class="nav-icon">🧾</span>
+          <span>Billing</span>
+        </button>
+
+        <button class="nav-item" data-page="staff" id="nav-staff">
+          <span class="nav-icon">👥</span>
+          <span>Staff</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-item" id="btn-reset-data" title="Reset all data to defaults">
+          <span class="nav-icon">🔄</span>
+          <span>Reset Data</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════ MAIN ═══════════════════ -->
+    <div class="main-content">
+
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="d-flex align-center gap-2">
+          <button class="btn-icon mobile-menu-btn" id="btn-mobile-menu">☰</button>
+          <h1 class="page-title" id="page-title">Dashboard</h1>
+        </div>
+        <div class="header-actions">
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search" placeholder="Search rooms, guests, bookings...">
+          </div>
+          <div class="header-user">
+            <div class="user-avatar" id="user-avatar">GR</div>
+            <div>
+              <div class="user-name" id="user-name">Loading…</div>
+              <div class="user-role" id="user-role">—</div>
+            </div>
+            <button class="btn-icon" id="btn-admin" title="Admin Panel" onclick="window.location.href='admin.html'" style="display:none;">⚙️</button>
+            <button class="btn-icon" id="btn-logout" title="Log out" onclick="Auth.logout()">🚪</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content Container -->
+      <main class="page-content" id="page-content">
+        <!-- Dynamic content injected by JS modules -->
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════ MODAL SYSTEM ═══════════════════ -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal Title</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic modal content -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <!-- Dynamic modal actions -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="rooms.js"></script>
+  <script src="bookings.js"></script>
+  <script src="guests.js"></script>
+  <script src="checkinout.js"></script>
+  <script src="billing.js"></script>
+  <script src="staff.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
